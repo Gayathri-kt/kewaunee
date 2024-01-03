@@ -82,15 +82,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           children: <Widget>[
             ListTile(
-              leading: const Icon(Icons.launch),
-              title: const Text('Login'),
+              leading: const Icon(Icons.launch,color: Colors.blue,),
+              title: const Text('Login Azure'),
               onTap: () {
                 login(context);
               },
             ),
 
             ListTile(
-              leading: const Icon(Icons.delete),
+              leading: const Icon(Icons.delete, color: Colors.red),
               title: const Text('Logout'),
               onTap: () {
                 // Navigator.pushNamed(context, '/sign');
