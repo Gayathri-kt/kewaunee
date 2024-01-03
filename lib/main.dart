@@ -62,7 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
     navigatorKey: navigatorKey,
 
     webUseRedirect: true,
-    redirectUri: "https://dane-loving-mammoth.ngrok-free.app/callback",
+    // redirectUri: "https://dane-loving-mammoth.ngrok-free.app/callback",
+    redirectUri: "https://kewaunee.web.app/minified:lo",
     loader: const SizedBox(),
     appBar: AppBar(
       title: const Text('AAD OAuth Demo'),
