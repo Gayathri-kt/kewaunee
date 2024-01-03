@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.yellow,
       ),
       // home: MyHomePage(title: 'AAD OAuth Home'),
-      initialRoute: '/',
+      home:MyHomePage() ,
       routes: {
         '/': (context) => MyHomePage(),
         '/sign': (context) => SignatureScreen(),
