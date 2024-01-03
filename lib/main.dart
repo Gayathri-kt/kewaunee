@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'AAD OAuth Demo',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
+        primarySwatch: Colors.yellow,
       ),
       // home: MyHomePage(title: 'AAD OAuth Home'),
       initialRoute: '/',
