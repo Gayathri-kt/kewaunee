@@ -57,11 +57,13 @@ class _MyHomePageState extends State<MyHomePage> {
   static final Config config = Config(
     tenant: 'ca51afa4-43e6-4d01-9a9a-633374b0618e',
     clientId: '961cc16d-48ee-4801-9a63-644bafb8ada5',
-    scope: 'openid profile email offline_access User.Read mailboxsettings.read calendars.readwrite',
+    scope: 'openid profile offline_access',
+    // User.Read mailboxsettings.read calendars.readwrite
     clientSecret: "zBg8Q~ysHZHxZUYpZazfqJ-C3sdvDqX-8mYG1dfR",
     navigatorKey: navigatorKey,
+    responseType: 'code',
     webUseRedirect: true,
-    redirectUri: kIsWeb?"https://kewaunee.web.app":"https://dane-loving-mammoth.ngrok-free.app/callback",
+    redirectUri: kIsWeb?"https://kewaunee.web.app/sign":"https://dane-loving-mammoth.ngrok-free.app/callback",
     loader: const SizedBox(),
     appBar: AppBar(
       title: const Text('AAD OAuth Demo'),
@@ -84,9 +86,17 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: const Icon(Icons.launch,color: Colors.blue,),
               title: const Text('Login Azure'),
               onTap: () {
-                login(context);
+                login(context,false);
               },
             ),
+            if (kIsWeb)
+              ListTile(
+                leading: Icon(Icons.launch),
+                title: Text('Login (web redirect)'),
+                onTap: () {
+                  login(context,true);
+                },
+              ),
 
             ListTile(
               leading: const Icon(Icons.delete, color: Colors.red),
@@ -118,9 +128,32 @@ class _MyHomePageState extends State<MyHomePage> {
     showDialog(context: context, builder: (BuildContext context) => alert);
   }
 
-  void login(BuildContext context) async {
+
+  void login(BuildContext context,bool redirect) async {
+    config.webUseRedirect = redirect;
+    final result = await oauth.login();
+    result.fold(
+          (l) => showError(l.toString()),
+          (r) => showMessage('Logged in successfully, your access token: $r'),
+    );
+    var accessToken = await oauth.getAccessToken();
+    print("AccessToken: $accessToken");
+
+    if (accessToken != null) {
+      loginAPI(accessToken);
+
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(accessToken)));
+    }
+  }
+/*
+  void login(BuildContext context, bool redirect) async {
+    config.webUseRedirect = redirect;
+
     try {
       final result = await oauth.login(refreshIfAvailable: true);
+      print("Debug result $result");
 
       result.fold(
             (failure) => showError(failure.toString()),
@@ -132,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
       String? accessToken = await oauth.getAccessToken();
       log("accessToken: $accessToken");
       print("Debug accessToken $accessToken");
-      // loginAPI(accessToken);
+      loginAPI(accessToken);
       // fetchAzureUserDetails(accessToken,context);
 
 
@@ -141,6 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
       showError(e);
     }
   }
+*/
 
    Future fetchAzureUserDetails(accessToken, BuildContext context) async {
     http.Response response;
