@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
     clientSecret: "zBg8Q~ysHZHxZUYpZazfqJ-C3sdvDqX-8mYG1dfR",
     navigatorKey: navigatorKey,
     webUseRedirect: true,
-    redirectUri: kIsWeb?"http://localhost:5000":"https://dane-loving-mammoth.ngrok-free.app/callback",
+    redirectUri: kIsWeb?"https://kewaunee.web.app":"https://dane-loving-mammoth.ngrok-free.app/callback",
     loader: const SizedBox(),
     appBar: AppBar(
       title: const Text('AAD OAuth Demo'),
