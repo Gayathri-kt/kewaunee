@@ -57,13 +57,11 @@ class _MyHomePageState extends State<MyHomePage> {
   static final Config config = Config(
     tenant: 'ca51afa4-43e6-4d01-9a9a-633374b0618e',
     clientId: '961cc16d-48ee-4801-9a63-644bafb8ada5',
-    scope: 'openid profile email offline_access user.read mailboxsettings.read calendars.readwrite',
+    scope: 'openid profile email offline_access User.Read mailboxsettings.read calendars.readwrite',
     clientSecret: "zBg8Q~ysHZHxZUYpZazfqJ-C3sdvDqX-8mYG1dfR",
     navigatorKey: navigatorKey,
-
     webUseRedirect: true,
-    // redirectUri: "https://dane-loving-mammoth.ngrok-free.app/callback",
-    redirectUri: "https://kewaunee.web.app/minified:lo",
+    redirectUri: kIsWeb?"https://kewaunee.web.app":"https://dane-loving-mammoth.ngrok-free.app/callback",
     loader: const SizedBox(),
     appBar: AppBar(
       title: const Text('AAD OAuth Demo'),
