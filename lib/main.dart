@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Azure Login"),
+        title: const Text("Login"),
       ),
       body: Center(
         child: ListView(
