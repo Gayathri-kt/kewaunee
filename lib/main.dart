@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
     clientSecret: "zBg8Q~ysHZHxZUYpZazfqJ-C3sdvDqX-8mYG1dfR",
     navigatorKey: navigatorKey,
     webUseRedirect: true,
-    redirectUri: kIsWeb?"https://kewaunee.web.app/minified:lo":"https://dane-loving-mammoth.ngrok-free.app/callback",
+    redirectUri: kIsWeb?"https://kewaunee.web.app/MyHomePage":"https://dane-loving-mammoth.ngrok-free.app/callback",
     loader: const SizedBox(),
     appBar: AppBar(
       title: const Text('AAD OAuth Demo'),
@@ -108,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void showMessage(String text) {
-    var alert = AlertDialog(content: new Text(text), actions: <Widget>[
+    var alert = AlertDialog(content: Text(text), actions: <Widget>[
       ElevatedButton(
           child: const Text("Ok"),
           onPressed: () {
