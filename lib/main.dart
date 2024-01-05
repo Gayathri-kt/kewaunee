@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants/text_constants.dart';
 import 'model/login_response.dart';
+import 'route/routes_name.dart';
 import 'signature_screen.dart';
 
 
@@ -22,7 +23,7 @@ final navigatorKey = GlobalKey<NavigatorState>();
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'AAD OAuth Demo',
       theme: ThemeData(
@@ -30,10 +31,12 @@ class MyApp extends StatelessWidget {
       ),
       // home: MyHomePage(title: 'AAD OAuth Home'),
       home:MyHomePage() ,
-      routes: {
-        '/': (context) => MyHomePage(),
-        '/sign': (context) => SignatureScreen(),
-      },
+      onGenerateRoute: RouteGenerator.generateRoute,
+      initialRoute: RoutesName.homePage,
+      // routes: {
+      //   '/': (context) => MyHomePage(),
+      //   '/sign': (context) => const SignatureScreen(),
+      // },
       navigatorKey: navigatorKey,
     );
   }
@@ -57,13 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
   static final Config config = Config(
     tenant: 'ca51afa4-43e6-4d01-9a9a-633374b0618e',
     clientId: '961cc16d-48ee-4801-9a63-644bafb8ada5',
-    scope: 'openid profile offline_access',
+    scope: 'openid profile email offline_access',
     // User.Read mailboxsettings.read calendars.readwrite
     clientSecret: "zBg8Q~ysHZHxZUYpZazfqJ-C3sdvDqX-8mYG1dfR",
     navigatorKey: navigatorKey,
     responseType: 'code',
     webUseRedirect: true,
-    redirectUri: kIsWeb?"https://kewaunee.web.app/sign":"https://dane-loving-mammoth.ngrok-free.app/callback",
+    redirectUri: kIsWeb?"http://localhost:54475/SignatureScreen":"https://dane-loving-mammoth.ngrok-free.app/callback",
     loader: const SizedBox(),
     appBar: AppBar(
       title: const Text('AAD OAuth Demo'),
@@ -102,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: const Icon(Icons.delete, color: Colors.red),
               title: const Text('Logout'),
               onTap: () {
-                // Navigator.pushNamed(context, '/sign');
+                Navigator.pushNamed(context, RoutesName.signaturePage);
 
                 logout();
               },
@@ -198,10 +201,13 @@ class _MyHomePageState extends State<MyHomePage> {
     Map loginRequest = {
       "access_token": accessToken,
     };
-
+    Map<String, String>? header =  {
+      "Access-Control-Allow-Origin": "*",
+      'Content-Type': 'application/json',
+      'Accept': '*/*'};
 
     final response =
-    await http.post(Uri.parse(url), body: loginRequest);
+    await http.post(Uri.parse(url),headers: header, body: loginRequest);
 
     var data = LoginResponse.fromJson(json.decode(response.body));
 
@@ -215,9 +221,11 @@ class _MyHomePageState extends State<MyHomePage> {
         SharedPreferences sharedPreferences = await _prefs;
         sharedPreferences.setString(authToken, data.data!.authToken.toString());
         // sharedPreferences.setString(authCode, data.data!.code.toString());
-             Get.offAllNamed('/sign');
+        //      Get.offAllNamed('/sign');
         // snackBarAlert(data.message.toString());
+        // Navigator.pushNamed(context, 'sign');
 
+        Navigator.pushNamed(context, RoutesName.signaturePage);
 
         // Get.offAll(const DevicesTypeScreen());
 
