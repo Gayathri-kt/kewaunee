@@ -201,13 +201,12 @@ class _MyHomePageState extends State<MyHomePage> {
     Map loginRequest = {
       "access_token": accessToken,
     };
-    Map<String, String>? header =  {
-      "Access-Control-Allow-Origin": "*",
-      'Content-Type': 'application/json',
-      'Accept': '*/*'};
+    // Map<String, String>? header =  {
+    //   "Access-Control-Allow-Origin": "*",
+    //   'Accept': '*/*'};
 
     final response =
-    await http.post(Uri.parse(url),headers: header, body: loginRequest);
+    await http.post(Uri.parse(url), body: loginRequest);
 
     var data = LoginResponse.fromJson(json.decode(response.body));
 
